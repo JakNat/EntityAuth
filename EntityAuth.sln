@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BA9F749F-83B7-4BA2-A822-1F0977E63F62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{ABEA7C26-FD2B-4841-B360-D7B604AB90F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASP .NET core 3 API", "ASP .NET core 3 API", "{A6E11118-FFD3-43C2-B7E2-40786FE451D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityAuth.Core", "src\EntityAuth.Core\EntityAuth.Core.csproj", "{F0F045B2-28EB-4C49-9313-7F687B8ADC7E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyApp.Api", "examples\ASP .net core 3 API\CurrencyApp.Api\CurrencyApp.Api.csproj", "{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyApp.Core", "examples\ASP .net core 3 API\CurrencyApp.Core\CurrencyApp.Core.csproj", "{1EA724A3-472C-44D5-A9A0-195FC541D4CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyApp.Infrastructure", "examples\ASP .net core 3 API\CurrencyApp.Infrastructure\CurrencyApp.Infrastructure.csproj", "{EF75CB87-6034-4F31-8F8E-7624A9ED9470}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0F045B2-28EB-4C49-9313-7F687B8ADC7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F045B2-28EB-4C49-9313-7F687B8ADC7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F045B2-28EB-4C49-9313-7F687B8ADC7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F045B2-28EB-4C49-9313-7F687B8ADC7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA724A3-472C-44D5-A9A0-195FC541D4CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA724A3-472C-44D5-A9A0-195FC541D4CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA724A3-472C-44D5-A9A0-195FC541D4CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA724A3-472C-44D5-A9A0-195FC541D4CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6E11118-FFD3-43C2-B7E2-40786FE451D0} = {ABEA7C26-FD2B-4841-B360-D7B604AB90F5}
+		{F0F045B2-28EB-4C49-9313-7F687B8ADC7E} = {BA9F749F-83B7-4BA2-A822-1F0977E63F62}
+		{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF} = {A6E11118-FFD3-43C2-B7E2-40786FE451D0}
+		{1EA724A3-472C-44D5-A9A0-195FC541D4CA} = {A6E11118-FFD3-43C2-B7E2-40786FE451D0}
+		{EF75CB87-6034-4F31-8F8E-7624A9ED9470} = {A6E11118-FFD3-43C2-B7E2-40786FE451D0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E50B3717-B502-4D76-A07A-85596DEA3FDF}
+	EndGlobalSection
+EndGlobal
