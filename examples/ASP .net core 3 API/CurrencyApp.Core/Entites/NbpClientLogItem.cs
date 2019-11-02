@@ -1,10 +1,11 @@
-﻿using System;
+﻿using EntityAuth.Core;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace CurrencyApp.Core.Entites
 {
-    public class NbpClientLogItem
+    public class NbpClientLogItem : IResourceId<long>
     {
         public long Id { get; set; }
 

@@ -131,7 +131,7 @@ namespace CurrencyApp.Api.Middleware
                 QueryString = queryString,
                 RequestBody = requestBody,
                 ResponseBody = responseBody,
-                AclId = new Random().Next(0,4)
+                Id = new Random().Next(0,4)
             });
         }
     }

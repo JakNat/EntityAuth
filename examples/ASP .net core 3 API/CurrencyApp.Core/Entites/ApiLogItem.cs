@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CurrencyApp.Core.Entites
 {
-    public class ApiLogItem : IPrimaryAuth
+    public class ApiLogItem : IResourceId<long>
     {
         public long Id { get; set; }
 
@@ -28,7 +28,5 @@ namespace CurrencyApp.Core.Entites
         public string RequestBody { get; set; }
 
         public string ResponseBody { get; set; }
-
-        public int AclId { get; set; }
     }
 }
