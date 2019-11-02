@@ -20,8 +20,7 @@ namespace CurrencyApp.Infrastructure.Migrations
                     Path = table.Column<string>(nullable: false),
                     QueryString = table.Column<string>(nullable: true),
                     RequestBody = table.Column<string>(nullable: true),
-                    ResponseBody = table.Column<string>(nullable: true),
-                    AclId = table.Column<int>(nullable: false)
+                    ResponseBody = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
