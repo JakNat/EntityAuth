@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyApp.Core", "example
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyApp.Infrastructure", "examples\ASP .net core 3 API\CurrencyApp.Infrastructure\CurrencyApp.Infrastructure.csproj", "{EF75CB87-6034-4F31-8F8E-7624A9ED9470}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D5A257F5-89B2-4369-9372-5C0074293F10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityAuth.Core.Test", "tests\EntityAuth.Core.Test\EntityAuth.Core.Test.csproj", "{61E09A8A-B9B5-4827-9933-5A93084F9D4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF75CB87-6034-4F31-8F8E-7624A9ED9470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61E09A8A-B9B5-4827-9933-5A93084F9D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E09A8A-B9B5-4827-9933-5A93084F9D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E09A8A-B9B5-4827-9933-5A93084F9D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61E09A8A-B9B5-4827-9933-5A93084F9D4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{74EA3429-FD2C-4B03-AE7B-5FB111EAC0CF} = {A6E11118-FFD3-43C2-B7E2-40786FE451D0}
 		{1EA724A3-472C-44D5-A9A0-195FC541D4CA} = {A6E11118-FFD3-43C2-B7E2-40786FE451D0}
 		{EF75CB87-6034-4F31-8F8E-7624A9ED9470} = {A6E11118-FFD3-43C2-B7E2-40786FE451D0}
+		{61E09A8A-B9B5-4827-9933-5A93084F9D4D} = {D5A257F5-89B2-4369-9372-5C0074293F10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E50B3717-B502-4D76-A07A-85596DEA3FDF}
