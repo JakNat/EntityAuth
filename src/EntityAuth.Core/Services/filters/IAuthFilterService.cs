@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace EntityAuth.Core.Services
 {
-    public interface IAuthFilterService
+    public interface IAuthFilterService<T> 
     {
-        IEnumerable<int> GetAclIds(Type type);
+        IEnumerable<T> GetIds(Type type);
     }
 }

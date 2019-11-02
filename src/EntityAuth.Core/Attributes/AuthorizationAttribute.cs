@@ -10,6 +10,11 @@ namespace EntityAuth.Core
     [AttributeUsage(AttributeTargets.Class)]
     public class AuthorizationAttribute : Attribute
     {
+        public AuthorizationAttribute(Type identifierType)
+        {
+            IdentifierType = identifierType;
+        }
 
+        public Type IdentifierType { get; set; }
     }
 }

@@ -1,8 +1,11 @@
 ﻿namespace EntityAuth.Core.Services
 {
-    public interface IAuthorizationService
+    /// <summary>
+    /// Interface for authorization purpose
+    /// </summary>
+    /// <typeparam name="T">indentyfier type</typeparam>
+    public interface IAuthorizationService<T>
     {
-        int GetCurrentUserId();
-        void SetCurrentUser(int id);
+        T GetCurrentUserId();
     }
 }

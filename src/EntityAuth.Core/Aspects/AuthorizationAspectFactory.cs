@@ -1,5 +1,4 @@
 ﻿using System;
-using EntityAuth.Core.Services;
 
 namespace EntityAuth.Core
 {
@@ -12,9 +11,8 @@ namespace EntityAuth.Core
             if (type != typeof(AuthorizationAspect))
                 throw new ArgumentException($"{nameof(AuthorizationAspectFactory)} can create instances only of type {nameof(AuthorizationAspect)}");
 
-            var service = ServiceProvider?.GetService(typeof(IAuthFilterService)) as IAuthFilterService;
 
-            return new AuthorizationAspect(service);
+            return new AuthorizationAspect(ServiceProvider);
         }
     }
 }

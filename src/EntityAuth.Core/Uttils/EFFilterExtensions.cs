@@ -4,30 +4,70 @@ using Z.EntityFramework.Plus;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using EntityAuth.Core.Models;
+using EntityAuth.Core.Services;
 
 namespace EntityAuth.Core
 {
     public static class EFFilterExtensions
     {
-        public static void SetFilter(this DbContext context, Type entityType, IEnumerable<int> aclIds)
+        #region Set Filter for DbSet<> With AuthFilter attribute
+
+        public static void SetFilter<T>(this DbContext context, Type entityType, IEnumerable<T> aclIds)
         {
-            SetFilterMethod.MakeGenericMethod(entityType)
+            SetFilterMethod.MakeGenericMethod(entityType, typeof(T))
                 .Invoke(null, new object[] { context , aclIds});
         }
 
         static readonly MethodInfo SetFilterMethod = typeof(EFFilterExtensions)
-                   .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                   .GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
                    .Single(t => t.IsGenericMethod && t.Name == "SetFilter");
 
-        public static void SetFilter<TEntity>(this DbContext context, IEnumerable<int> aclIds)
-            where TEntity : class, IPrimaryAuth
+        private static void SetFilter<TEntity,T>(this DbContext context, IEnumerable<T> aclIds)
+            where TEntity : class, IResourceId<T>
         {
-            context.Filter<TEntity>(q => q.Where(x => aclIds.Contains(x.AclId)));
+            context.Filter<TEntity>(q => q.Where(x => aclIds.Contains(x.Id)));
         }
 
-        //public static DbSet<TEntity> Disable<TEntity>(this DbSet<TEntity> dbSet) where TEntity : class
-        //{
-        //    return dbSet.Disable();
-        //}
+        #endregion
+
+        #region Set Fitlers for all DbSet<> with AuthFIlter Attribute in DbContext
+
+        public static void SetFilters(this DbContext context, Type identifierType, IServiceProvider serviceProvider, IEnumerable<PropertyInfo> dbSets)
+        {
+            SetFiltersMethod.MakeGenericMethod(identifierType)
+                .Invoke(null, new object[] { context, serviceProvider, dbSets });
+        }
+
+        static readonly MethodInfo SetFiltersMethod = typeof(EFFilterExtensions)
+                   .GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+                   .Single(t => t.IsGenericMethod && t.Name == "SetFilters");
+
+        private static void SetFilters<TIdentifier>(this DbContext context, IServiceProvider serviceProvider, IEnumerable<PropertyInfo> dbSets)
+        {
+            var service = serviceProvider.GetService(typeof(IAuthFilterService<TIdentifier>))
+                                 as IAuthFilterService<TIdentifier>;
+
+            foreach (var dbSet in dbSets)
+            {
+                var type = dbSet.PropertyType.GenericTypeArguments[0];
+
+                var aclIds = service.GetIds(type);
+
+                context.SetFilter(type, aclIds);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Modelling acl tables
+        /// </summary>
+        /// <typeparam name="T"> type of entity identifier</typeparam>
+        public static void SetAclTables<T>(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Resource<T>>();
+            modelBuilder.Entity<Role>();
+            modelBuilder.Entity<Permission<T>>();
+        }
     }
 }

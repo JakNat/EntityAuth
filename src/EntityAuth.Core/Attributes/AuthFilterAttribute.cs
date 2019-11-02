@@ -3,8 +3,8 @@
 namespace EntityAuth.Core
 {
     /// <summary>
-    /// Adding Filter to DbSet<T>
-    /// NOTE: T must implement <see cref="IPrimaryAuth"/>
+    /// Marking resources with filter
+    /// <para> For DbContext.DbSet </para>
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class AuthFilterAttribute : Attribute
