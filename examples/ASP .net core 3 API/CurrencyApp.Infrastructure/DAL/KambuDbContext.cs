@@ -1,10 +1,13 @@
 ﻿using EntityAuth.Core;
 using CurrencyApp.Core.Entites;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using EntityAuth.Core.Models;
+using EntityAuth.Core.Aspects;
 
 namespace CurrencyApp.Infrastructure.DAL
 {
-    [Authorization]
+    [Authorization(typeof(long))]
     public class CurrencyDbContext : DbContext
     {
         public CurrencyDbContext(DbContextOptions<CurrencyDbContext> options) : base(options)
@@ -15,17 +18,9 @@ namespace CurrencyApp.Infrastructure.DAL
         public DbSet<ApiLogItem> ApiLogs { get; set; }
         public DbSet<NbpClientLogItem> NbpClientLogs { get; set; }
 
-        //[AuthFilter]
+        [AclTables(typeof(long))]
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity()
-            //modelBuilder.Entity<Blog>().Property<string>("TenantId").HasField("_tenantId");
-
-            //// Configure entity filters
-            //modelBuilder.Entity<Blog>().HasQueryFilter(b => EF.Property<string>(b, "TenantId") == _tenantId);
-            //modelBuilder.Entity<Post>().HasQueryFilter(p => !p.IsDeleted);
         }
-
-
     }
 }
