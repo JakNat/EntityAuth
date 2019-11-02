@@ -15,19 +15,16 @@ namespace CurrencyApp.Infrastructure.Services
     public class ApiLogService : IApiLogService
     {
         private readonly CurrencyDbContext _db;
-        private readonly IAuthorizationService authorizationService;
 
-        public ApiLogService(CurrencyDbContext db, IAuthorizationService authorizationService)
+        public ApiLogService(CurrencyDbContext db)
         {
             _db = db;
-            this.authorizationService = authorizationService;
         }
 
         public async Task Log(ApiLogItem apiLogItem)
         {
             var x2 = await _db.ApiLogs.ToListAsync();
 
-            authorizationService.SetCurrentUser(3);
             _db.ApiLogs.Add(apiLogItem);
             await _db.SaveChangesAsync();
         }

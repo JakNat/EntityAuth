@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using RestSharp;
+using EntityAuth.Core.Uttils;
 
 namespace CurrencyApp.Api
 {
@@ -44,7 +45,6 @@ namespace CurrencyApp.Api
             });
 
             // Db context
-            // default local db -> "CurrencyAppConnectionString": "Server=(localdb)\\mssqllocaldb;Database=CurrencyApp;Trusted_Connection=True"
             var connectionString = Configuration.GetConnectionString("CurrencyAppConnectionString");
             services.AddDbContext<CurrencyDbContext>(options => options.UseSqlServer(connectionString));
            
@@ -53,9 +53,25 @@ namespace CurrencyApp.Api
             services.AddTransient<INbpClientLogService, NbpClientLogService>();
             services.AddTransient<IRateService, RateService>();
 
-            //Auth filter
-            services.AddTransient<IAuthFilterService, AuthFilterService>();
-            services.AddSingleton<IAuthorizationService>(new AuthorizationService(1));
+            
+            
+            /////////////////// entity auth implementation
+            
+            services.AddEntityFilter()
+                .SetIdentifierType<long>()
+                .SetAuthFilterScope(ServiceLifetime.Transient)
+                .SetAuthorizationScope(ServiceLifetime.Transient)
+                .SetAuthorizationImplementationType<AuthorizationService<long>>()
+                .Add();
+            
+            /*
+             * equal to:
+             * services.AddTransient<IAuthFitlerService<long>, AuthLongFilterService>();
+             * services.AddTransient<IAuthorizationService<long>, AuthorizationService<long>>();
+             */
+
+            ////////////////////
+
 
             // Rest client
             services.AddTransient<INbpRestClient, NbpRestClient>();
