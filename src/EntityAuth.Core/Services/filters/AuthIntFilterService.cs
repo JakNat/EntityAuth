@@ -1,5 +1,8 @@
-﻿using System;
+﻿using EntityAuth.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EntityAuth.Core.Services
 {
@@ -9,13 +12,8 @@ namespace EntityAuth.Core.Services
     /// </summary>
     public class AuthIntFilterService : BaseAuthFilterService<int>
     {
-        public AuthIntFilterService(IAuthorizationService<int> authorizationService) : base(authorizationService)
+        public AuthIntFilterService(IAuthorizationService<int> authorizationService/*, DbContext dbContext*/) : base(authorizationService/*, dbContext*/)
         {
-        }
-
-        public override IEnumerable<int> GetIds(Type type)
-        {
-            return new List<int>() { 1, 2 };
         }
     }
 }
