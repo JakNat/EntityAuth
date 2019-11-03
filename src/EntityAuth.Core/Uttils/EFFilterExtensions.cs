@@ -65,7 +65,7 @@ namespace EntityAuth.Core
         /// <typeparam name="T"> type of entity identifier</typeparam>
         public static void SetAclTables<T>(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Resource<T>>();
+            modelBuilder.Entity<ResourceType>();
             modelBuilder.Entity<Role>();
             modelBuilder.Entity<Permission<T>>();
         }
