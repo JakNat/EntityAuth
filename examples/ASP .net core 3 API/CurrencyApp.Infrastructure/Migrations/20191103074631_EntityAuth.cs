@@ -2,7 +2,7 @@
 
 namespace CurrencyApp.Infrastructure.Migrations
 {
-    public partial class EnityAuthMigration : Migration
+    public partial class EntityAuth : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,7 +10,7 @@ namespace CurrencyApp.Infrastructure.Migrations
                 name: "EA_Resource",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false)
                 },
@@ -39,14 +39,15 @@ namespace CurrencyApp.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<int>(nullable: false),
+                    ResourceTypeId = table.Column<int>(nullable: false),
                     ResourceId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EA_Permissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EA_Permissions_EA_Resource_ResourceId",
-                        column: x => x.ResourceId,
+                        name: "FK_EA_Permissions_EA_Resource_ResourceTypeId",
+                        column: x => x.ResourceTypeId,
                         principalTable: "EA_Resource",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -58,10 +59,25 @@ namespace CurrencyApp.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "EA_Resource",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "ApiLogItem" });
+
+            migrationBuilder.InsertData(
+                table: "EA_Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Administrator" });
+
+            migrationBuilder.InsertData(
+                table: "EA_Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "User" });
+
             migrationBuilder.CreateIndex(
-                name: "IX_EA_Permissions_ResourceId",
+                name: "IX_EA_Permissions_ResourceTypeId",
                 table: "EA_Permissions",
-                column: "ResourceId");
+                column: "ResourceTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EA_Permissions_RoleId",

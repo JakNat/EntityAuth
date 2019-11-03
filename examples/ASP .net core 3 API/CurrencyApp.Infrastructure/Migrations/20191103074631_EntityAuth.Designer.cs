@@ -4,14 +4,16 @@ using CurrencyApp.Infrastructure.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CurrencyApp.Infrastructure.Migrations
 {
     [DbContext(typeof(CurrencyDbContext))]
-    partial class CurrencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191103074631_EntityAuth")]
+    partial class EntityAuth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,23 +95,26 @@ namespace CurrencyApp.Infrastructure.Migrations
                     b.Property<long>("ResourceId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("ResourceTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResourceId");
+                    b.HasIndex("ResourceTypeId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("EA_Permissions");
                 });
 
-            modelBuilder.Entity("EntityAuth.Core.Models.Resource<long>", b =>
+            modelBuilder.Entity("EntityAuth.Core.Models.ResourceType", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
@@ -119,6 +124,13 @@ namespace CurrencyApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EA_Resource");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Name = "ApiLogItem"
+                        });
                 });
 
             modelBuilder.Entity("EntityAuth.Core.Models.Role", b =>
@@ -135,13 +147,25 @@ namespace CurrencyApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EA_Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Administrator"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("EntityAuth.Core.Models.Permission<long>", b =>
                 {
-                    b.HasOne("EntityAuth.Core.Models.Resource<long>", "Resource")
+                    b.HasOne("EntityAuth.Core.Models.ResourceType", "ResourceType")
                         .WithMany()
-                        .HasForeignKey("ResourceId")
+                        .HasForeignKey("ResourceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
