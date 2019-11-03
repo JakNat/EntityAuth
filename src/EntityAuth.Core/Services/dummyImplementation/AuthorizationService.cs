@@ -22,6 +22,12 @@ namespace EntityAuth.Core.Services
             return userId;
         }
 
+        public string GetCurrentRole()
+        {
+            return "Administrator";
+        }
+
+
         public void SetCurrentUser(T id)
         {
 

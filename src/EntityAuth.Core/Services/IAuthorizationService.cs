@@ -6,6 +6,7 @@
     /// <typeparam name="T">indentyfier type</typeparam>
     public interface IAuthorizationService<T>
     {
+        string GetCurrentRole();
         T GetCurrentUserId();
     }
 }
