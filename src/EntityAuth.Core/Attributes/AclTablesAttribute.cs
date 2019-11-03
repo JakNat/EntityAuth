@@ -1,13 +1,12 @@
 ﻿using AspectInjector.Broker;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using EntityAuth.Core.Models;
 
 namespace EntityAuth.Core.Aspects
 {
     /// <summary>
     /// Generating acl tables:
-    /// <para> (EA_Resources, EA_Roles, EA_Permissions) </para>
+    /// <para> (<see cref="ResourceType{T}"/>, <see cref="Role"/>, <see cref="Permission{T}"/>) </para>
     /// <para> Attribute for DbContext.OnModelCreating method </para>
     /// <para> Needed migration </para>
     /// </summary>

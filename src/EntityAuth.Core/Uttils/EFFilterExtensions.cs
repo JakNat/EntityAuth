@@ -4,7 +4,6 @@ using Z.EntityFramework.Plus;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using EntityAuth.Core.Models;
 using EntityAuth.Core.Services;
 
 namespace EntityAuth.Core
@@ -45,29 +44,35 @@ namespace EntityAuth.Core
 
         private static void SetFilters<TIdentifier>(this DbContext context, IServiceProvider serviceProvider, IEnumerable<PropertyInfo> dbSets)
         {
+           
             var service = serviceProvider.GetService(typeof(IAuthFilterService<TIdentifier>))
                                  as IAuthFilterService<TIdentifier>;
-
+           
             foreach (var dbSet in dbSets)
             {
                 var type = dbSet.PropertyType.GenericTypeArguments[0];
 
-                var aclIds = service.GetIds(type);
+                var aclIds = service.GetIds(type, context);
 
                 context.SetFilter(type, aclIds);
             }
         }
         #endregion
 
-        /// <summary>
-        /// Modelling acl tables
-        /// </summary>
-        /// <typeparam name="T"> type of entity identifier</typeparam>
-        public static void SetAclTables<T>(this ModelBuilder modelBuilder)
+        ///// <summary>
+        ///// Modelling acl tables
+        ///// </summary>
+        ///// <typeparam name="T"> type of entity identifier</typeparam>
+        //public static void SetAclTables<T>(this ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<ResourceType>();
+        //    modelBuilder.Entity<Role>();
+        //    modelBuilder.Entity<Permission<T>>();
+        //}
+
+        public static EntityAuthTablesBuilder SetAclTablesBuilder(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ResourceType>();
-            modelBuilder.Entity<Role>();
-            modelBuilder.Entity<Permission<T>>();
+            return new EntityAuthTablesBuilder().SetModelBuilder(modelBuilder);
         }
     }
 }
