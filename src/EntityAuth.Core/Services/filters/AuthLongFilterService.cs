@@ -1,4 +1,4 @@
-﻿using EntityAuth.Core.Models;
+﻿using EntityAuth.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

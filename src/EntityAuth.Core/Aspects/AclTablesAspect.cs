@@ -1,5 +1,5 @@
 ﻿using AspectInjector.Broker;
-using EntityAuth.Core.Models;
+using EntityAuth.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -44,14 +44,14 @@ namespace EntityAuth.Core.Aspects
             };
 
             var aclBuilder = modelBuilder.SetAclTablesBuilder()
-                
+
                 // todo implment reflection for SetResourceIdentifierType and remove unneceasery code
                 //.SetResourceIdentifierType(idType)
                 .SetResouces(resourcesType)
                 .SetRoles(dummyRoles);
-                
-                // todo
-                //.Build();
+
+            // todo
+            //.Build();
 
             // todo remove if reflection was added
             if (idType.Equals(typeof(int)))

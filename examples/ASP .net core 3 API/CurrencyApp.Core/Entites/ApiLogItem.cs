@@ -1,4 +1,4 @@
-﻿using EntityAuth.Core;
+﻿using EntityAuth.Shared.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 

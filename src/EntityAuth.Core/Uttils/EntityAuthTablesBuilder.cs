@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using EntityAuth.Core.Models;
+using EntityAuth.Shared.Models;
 
 namespace EntityAuth.Core
 {

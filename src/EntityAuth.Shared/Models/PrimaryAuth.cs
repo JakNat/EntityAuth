@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityAuth.Core
+namespace EntityAuth.Shared.Models
 {
     /// <summary>
     /// Marker for resources.

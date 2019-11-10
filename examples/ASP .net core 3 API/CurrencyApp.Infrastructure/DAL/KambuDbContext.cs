@@ -2,7 +2,7 @@
 using CurrencyApp.Core.Entites;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using EntityAuth.Core.Models;
+using EntityAuth.Shared.Models;
 using EntityAuth.Core.Aspects;
 
 namespace CurrencyApp.Infrastructure.DAL

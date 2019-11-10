@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using EntityAuth.Core.Services;
+using EntityAuth.Shared.Models;
 
 namespace EntityAuth.Core
 {

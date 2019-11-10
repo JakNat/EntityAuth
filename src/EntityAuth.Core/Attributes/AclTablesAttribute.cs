@@ -1,6 +1,6 @@
 ﻿using AspectInjector.Broker;
 using System;
-using EntityAuth.Core.Models;
+using EntityAuth.Shared.Models;
 
 namespace EntityAuth.Core.Aspects
 {

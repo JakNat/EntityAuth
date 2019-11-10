@@ -85,7 +85,7 @@ namespace CurrencyApp.Infrastructure.Migrations
                     b.ToTable("NbpClientLogs");
                 });
 
-            modelBuilder.Entity("EntityAuth.Core.Models.Permission<long>", b =>
+            modelBuilder.Entity("EntityAuth.Shared.Models.Permission<long>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +110,7 @@ namespace CurrencyApp.Infrastructure.Migrations
                     b.ToTable("EA_Permissions");
                 });
 
-            modelBuilder.Entity("EntityAuth.Core.Models.ResourceType", b =>
+            modelBuilder.Entity("EntityAuth.Shared.Models.ResourceType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,7 +133,7 @@ namespace CurrencyApp.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EntityAuth.Core.Models.Role", b =>
+            modelBuilder.Entity("EntityAuth.Shared.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -161,15 +161,15 @@ namespace CurrencyApp.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EntityAuth.Core.Models.Permission<long>", b =>
+            modelBuilder.Entity("EntityAuth.Shared.Models.Permission<long>", b =>
                 {
-                    b.HasOne("EntityAuth.Core.Models.ResourceType", "ResourceType")
+                    b.HasOne("EntityAuth.Shared.Models.ResourceType", "ResourceType")
                         .WithMany()
                         .HasForeignKey("ResourceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EntityAuth.Core.Models.Role", "Role")
+                    b.HasOne("EntityAuth.Shared.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
