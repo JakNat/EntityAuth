@@ -6,10 +6,11 @@ using System.Linq;
 using EntityAuth.Core.Services;
 using System.Collections.Generic;
 using System.Reflection;
+using EntityAuth.Core.Uttils;
 
 namespace EntityAuth.Core
 {
-    [Aspect(Scope.PerInstance, Factory = typeof(AuthorizationAspectFactory))]
+    [Aspect(Scope.PerInstance, Factory = typeof(ServiceProviderAspectFactory))]
     public class AuthorizationAspect
     {
         private readonly IServiceProvider _serviceProvider;
@@ -33,7 +34,9 @@ namespace EntityAuth.Core
 
             var authAttribute = attributes.First() as AuthorizationAttribute;
 
-            var identifierType = authAttribute.IdentifierType;
+            var identifierType = _serviceProvider
+                .GetEntityAuthConfiguration()
+                .IdentifierType;
 
             //Get all dbset<> with AuthFilter attribute
             var dbSets = GetPropertiesWithAttribute(classType, typeof(AuthFilterAttribute));

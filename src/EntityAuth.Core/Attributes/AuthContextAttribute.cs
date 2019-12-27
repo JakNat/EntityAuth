@@ -8,7 +8,7 @@ namespace EntityAuth.Core
     /// </summary>
     [Injection(typeof(AuthorizationAspect))]
     [AttributeUsage(AttributeTargets.Class)]
-    public class AuthorizationAttribute : Attribute
+    public class AuthContextAttribute : Attribute
     {
     }
 }

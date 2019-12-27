@@ -14,10 +14,5 @@ namespace EntityAuth.Core.Aspects
     [Injection(typeof(AclTablesAspect))]
     public class AclTablesAttribute : Attribute
     {
-        public Type Type { get; set; }
-        public AclTablesAttribute(Type type)
-        {
-            Type = type;
-        }
     }
 }
