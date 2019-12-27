@@ -14,6 +14,7 @@ namespace EntityAuth.Core.Uttils
         private IServiceCollection _services;
         private ServiceLifetime _authFilterTypeScope;
 
+        private Type _identifierType;
         private Type _authFilterType;
         private Type _authorizationType;
         private Type _authFilterImplementation;
@@ -42,6 +43,8 @@ namespace EntityAuth.Core.Uttils
             {
                 _authFilterImplementation = typeof(AuthGuidFilterService);
             }
+
+            _identifierType = typeof(TIdentifier);
 
             return this;
         }
@@ -102,6 +105,10 @@ namespace EntityAuth.Core.Uttils
                 implementationType: _authorizationImplementation,
                 lifetime: _authorizationScope
                 ));
+
+            // Injecting EntityAuthConfiguration 
+            _services.AddSingleton<IEntityAuthConfiguration>(
+                new EntityAuthConfiguration() { IdentifierType = _identifierType });
         }
     }
 }
