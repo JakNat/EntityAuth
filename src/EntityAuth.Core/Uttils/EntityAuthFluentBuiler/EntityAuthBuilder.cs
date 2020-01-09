@@ -7,7 +7,7 @@ namespace EntityAuth.Core.Uttils
     /// <summary>
     /// Fluent interface builder for injecting entiyAuth
     /// </summary>
-    public class EntityAuthBuilder : IIdentifierSetter, 
+    public class EntityAuthBuilder : IIdentifierSetter,
         IFilterImplementation, IAuthorizationImplementation,
         IAuthorizationScope, IAuthFilterScope, IInject
     {
@@ -69,7 +69,7 @@ namespace EntityAuth.Core.Uttils
         public IAuthorizationScope SetAuthFilterImplementationType(Type implementationType)
         {
             if (!_authFilterType.IsAssignableFrom(implementationType))
-                throw new Exception($"AuthFilter implementation must implements {_authFilterType}");
+                throw new EntityAuthBuilderWrongIdentifierException($"AuthFilter implementation must implements {_authFilterType}");
 
             _authFilterImplementation = implementationType;
             return this;
@@ -83,7 +83,7 @@ namespace EntityAuth.Core.Uttils
         public IInject SetAuthorizationImplementationType(Type implementationType)
         {
             if (!_authorizationType.IsAssignableFrom(implementationType))
-                throw new Exception($"Authorization implementation must implements {_authorizationType}");
+                throw new EntityAuthBuilderWrongIdentifierException($"Authorization implementation must implements {_authorizationType}");
 
 
             _authorizationImplementation = implementationType;
