@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EntityAuth.Shared
+namespace EntityAuth.Shared.Enums
 {
     public enum AccessType
     {

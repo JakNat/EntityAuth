@@ -1,42 +1,96 @@
 ﻿using EntityAuth.Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.Json;
 
 namespace EntityAuth.Core.Services
 {
     public class RoleRepository : IRoleRepository
     {
         private readonly DbContext db;
+        private readonly IMemorizeService memorizeService;
 
-        public RoleRepository(DbContext db)
+        public RoleRepository(DbContext db, IMemorizeService memorizeService)
         {
             this.db = db;
+            this.memorizeService = memorizeService;
         }
 
-        private List<Role> results;
-        private List<Role> rolesToDelete;
-
-        /// <summary>
-        /// Get role with its offspring
-        /// </summary>
-        public List<Role> Get(Expression<Func<Role, bool>> filter)
+        #region Get
+        public IEnumerable<Role> Get(Expression<Func<Role, bool>> expression)
         {
-            var roles = db.Set<Role>().Include(x => x.Children).ToList();
+            IQueryable<Role> parents = db.Set<Role>()
+                .Include(x => x.Children)
+                .Where(expression);
 
-            results = new List<Role>();
-            foreach (Role entity in db.Set<Role>().Include(x => x.Children).Where(filter))
+            foreach (Role entity in parents)
             {
-                results.Add(entity);
-                GetChildren(entity, filter);
+                LoadChildren(entity);
 
+                yield return entity;
             }
+        }
+        private void LoadChildren(Role parent)
+        {
+            if (memorizeService.Contains(parent))
+                parent = memorizeService.Get(parent);
+            else
+            {
+                db.Entry(parent).Collection(e => e.Children).Query().Load();
+                var children = new List<Role>();
+                if (parent.Children != null)
+                {
+                    foreach (Role child in parent.Children)
+                    {
+                        LoadChildren(child);
 
+                    }
+                }
+                memorizeService.Add(parent);
+            }
+        }
+
+        public IEnumerable<Role> GetOffspring(Expression<Func<Role, bool>> filter)
+        {
+
+            var role = db.Set<Role>().Include(x => x.Children).FirstOrDefault(filter);
+            var gg = role.GetOffsprings();
+            if (role == null)
+                return null;
+
+            var results = GetOffspring(role);
             return results;
         }
+
+        private IEnumerable<Role> GetOffspring(Role parent)
+        {
+            if (memorizeService.ContainsChildren(parent))
+                return memorizeService.GetChildren(parent);
+            else
+            {
+                db.Entry(parent).Collection(e => e.Children).Query().Load();
+                var children = new List<Role>();
+                if (parent.Children != null)
+                {
+                    foreach (Role child in parent.Children)
+                    {
+                        children.Add(child);
+                        children.AddRange(GetOffspring(child));
+                    }
+                }
+
+                memorizeService.AddChildren(parent, children);
+                return children;
+            }
+        }
+        #endregion
+
+        #region Add
 
         public void Add(Role parrent, Role child)
         {
@@ -54,7 +108,7 @@ namespace EntityAuth.Core.Services
                 db.Set<Role>().Add(child);
             }
 
-            db.SaveChanges();
+            SaveChanges();
         }
 
         public void Add(string parentName, Role child)
@@ -66,13 +120,29 @@ namespace EntityAuth.Core.Services
             Add(parent, child);
         }
 
-        /// <summary>
-        /// delete role and its offspring
-        /// </summary>
+        public void Add(string parentName, string childName)
+        {
+            var roles = db.Set<Role>();
+
+            var parent = roles.FirstOrDefault(x => x.Name == parentName);
+            var child = new Role() { Name = childName };
+
+            Add(parent, child);
+        }
+
+        #endregion
+
+        #region Delete
+
         public void Delete(string roleName)
         {
             var role = db.Set<Role>().FirstOrDefault(x => x.Name == roleName);
 
+            Delete(role);
+        }
+
+        public void Delete(Role role)
+        {
             if (role == null)
                 return;
 
@@ -83,7 +153,7 @@ namespace EntityAuth.Core.Services
                 DeleteChildren(role);
 
             db.Set<Role>().RemoveRange(rolesToDelete);
-            db.SaveChanges();
+            SaveChanges();
         }
 
         private void DeleteChildren(Role parent)
@@ -100,18 +170,18 @@ namespace EntityAuth.Core.Services
             }
         }
 
-        private void GetChildren(Role parent, Expression<Func<Role, bool>> childFilter)
-        {
-            db.Entry(parent).Collection(e => e.Children).Query().Where(childFilter).Load();
+        #endregion
 
-            if (parent.Children != null)
-            {
-                foreach (Role child in parent.Children)
-                {
-                    results.Add(child);
-                    GetChildren(child, childFilter);
-                }
-            }
+        private void SaveChanges()
+        {
+            memorizeService.Clear();
+            db.SaveChanges();
         }
+
+        #region private fields
+
+        private List<Role> rolesToDelete;
+
+        #endregion
     }
 }

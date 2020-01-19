@@ -3,10 +3,9 @@
     /// <summary>
     /// Interface for authorization purpose
     /// </summary>
-    /// <typeparam name="T">indentyfier type</typeparam>
-    public interface IAuthorizationService<T>
+    /// <typeparam name="T">identifier type</typeparam>
+    public interface IAuthorizationService
     {
         string GetCurrentRole();
-        T GetCurrentUserId();
     }
 }

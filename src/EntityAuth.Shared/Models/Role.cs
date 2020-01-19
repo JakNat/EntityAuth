@@ -1,39 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityAuth.Shared.Models
 {
-    /// <summary>
-    /// <seealso cref="https://stackoverflow.com/questions/5875646/database-schema-for-acl"/>
-    /// </summary>
     [Table("EA_Roles")]
     public class Role
     {
+        public Role()
+        {
+        }
+
+        public Role(ILazyLoader lazyLoader)
+        {
+            _lazyLoader = lazyLoader;
+        }
+
+        private readonly ILazyLoader _lazyLoader;
+
         [Required]
         public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        //public int ParentId { get; set; }
+        private Role parent;
 
-        public  virtual Role Parent { get; set; }
+        public Role Parent
+        {
+            get => _lazyLoader.Load(this, ref parent);
+            set => parent = value;
+        }
+
+
         public  List<Role> Children { get; set; }
 
+        public IEnumerable<Role> GetOffsprings()
+        {
+            var offsprings = new List<Role>();
+            if (Children == null)
+                return offsprings;
+
+            foreach (var role in Children)
+            {
+                offsprings.Add(role);
+                offsprings.AddRange(role.GetOffsprings());
+            }
+            return offsprings;
+        }
     }
-
-    //public class RoleNode 
-    //{
-    //    public int Id { get; set; }
-
-    //    public int AncestorId { get; set; }
-    //    public virtual Role Ancestor { get; set; }
-
-    //    public int OffspringId { get; set; }
-    //    public virtual Role Offspring { get; set; }
-
-    //    public int Separation { get; set; }
-    //}
-
 }

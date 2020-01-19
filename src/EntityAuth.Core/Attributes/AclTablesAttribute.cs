@@ -5,7 +5,7 @@ using EntityAuth.Shared.Models;
 namespace EntityAuth.Core.Aspects
 {
     /// <summary>
-    /// Generating acl tables:
+    /// Generating ACL tables:
     /// <para> (<see cref="ResourceType{T}"/>, <see cref="Role"/>, <see cref="Permission{T}"/>) </para>
     /// <para> Attribute for DbContext.OnModelCreating method </para>
     /// <para> Needed migration </para>
@@ -14,5 +14,11 @@ namespace EntityAuth.Core.Aspects
     [Injection(typeof(AclTablesAspect))]
     public class AclTablesAttribute : Attribute
     {
+        public AclTablesAttribute(Type identyfierType)
+        {
+            IdentyfierType = identyfierType;
+        }
+
+        public Type IdentyfierType { get; }
     }
 }
