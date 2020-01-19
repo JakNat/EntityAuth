@@ -1,5 +1,6 @@
 ﻿using EntityAuth.Core.Services;
 using EntityAuth.Shared;
+using EntityAuth.Shared.Enums;
 using EntityAuth.Shared.Models;
 using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
@@ -28,13 +29,13 @@ namespace EntityAuth.Core.Test.Services
             // mocking RecursiveRepository
             // recursiveRepo.Get(...) returns 5 roles
             var recursiveRepo = A.Fake<IRoleRepository>();
-            A.CallTo(() => recursiveRepo.Get(A<Expression<Func<Role, bool>>>.Ignored))
+            A.CallTo(() => recursiveRepo.GetOffspring(A<Expression<Func<Role, bool>>>.Ignored))
                 .Returns(new List<Role>() 
                 { MakeRole(1), MakeRole(2), MakeRole(3), MakeRole(4), MakeRole(5)});
 
             // mocking IAuthorizationService
             // authorizationService.GetCurrentRole() returns "Role1"
-            var authorizationService = A.Fake<IAuthorizationService<int>>();
+            var authorizationService = A.Fake<IAuthorizationService>();
             A.CallTo(() => authorizationService.GetCurrentRole()).Returns("Role1");
 
             // mocking resource type
@@ -42,7 +43,7 @@ namespace EntityAuth.Core.Test.Services
             var type = A.Fake<Type>();
             A.CallTo(() => type.Name).Returns(TestResources.Resource1);
 
-            BaseAuthFilterService<int> service = new AuthIntFilterService(authorizationService, _db, recursiveRepo);
+            AuthFilterService<int> service = new AuthFilterService<int>(authorizationService, _db, recursiveRepo);
 
             var results = service.GetIds(type, AccessType.GET);
 
@@ -55,13 +56,13 @@ namespace EntityAuth.Core.Test.Services
             // mocking RecursiveRepository
             // recursiveRepo.Get(...) returns 5 roles
             var recursiveRepo = A.Fake<IRoleRepository>();
-            A.CallTo(() => recursiveRepo.Get(A<Expression<Func<Role, bool>>>.Ignored))
+            A.CallTo(() => recursiveRepo.GetOffspring(A<Expression<Func<Role, bool>>>.Ignored))
                 .Returns(new List<Role>()
                 { MakeRole(11), MakeRole(2), MakeRole(3), MakeRole(4), MakeRole(5)});
 
             // mocking IAuthorizationService
             // authorizationService.GetCurrentRole() returns "Role1"
-            var authorizationService = A.Fake<IAuthorizationService<int>>();
+            var authorizationService = A.Fake<IAuthorizationService>();
             A.CallTo(() => authorizationService.GetCurrentRole()).Returns("Role1");
 
             // mocking resource type
@@ -69,7 +70,7 @@ namespace EntityAuth.Core.Test.Services
             var type = A.Fake<Type>();
             A.CallTo(() => type.Name).Returns(TestResources.Resource2);
 
-            BaseAuthFilterService<int> service = new AuthIntFilterService(authorizationService, _db, recursiveRepo);
+            AuthFilterService<int> service = new AuthFilterService<int>(authorizationService, _db, recursiveRepo);
 
             var results = service.GetIds(type, AccessType.GET);
 
