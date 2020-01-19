@@ -21,6 +21,7 @@ namespace EntityAuth.Core.Uttils
         private Type _authFilterImplementation;
         private Type _authorizationImplementation;
         private ServiceLifetime _authorizationScope;
+        private Type _dbContextType;
 
         public EntityAuthBuilder(IServiceCollection services)
         {
@@ -79,9 +80,15 @@ namespace EntityAuth.Core.Uttils
             return this;
         }
 
+        public IInject SetDbContextImplementation(Type dbContextImp)
+        {
+            _dbContextType = dbContextImp;
+            return this;
+        }
+
         public void Add()
         {
-            // Inejcting AuthFiler Service
+            // Injecting AuthFiler Service
             _services.Add(new ServiceDescriptor(
                 serviceType: _authFilterType,
                 implementationType: _authFilterImplementation,
@@ -102,12 +109,13 @@ namespace EntityAuth.Core.Uttils
             _services.AddTransient<IRoleRepository, RoleRepository>();
             _services.AddTransient<IEntityFilter, EntityFilter>();
 
-            //_services.Add(new ServiceDescriptor(
-            //    serviceType: typeof(DbContext),
-            //    implementationType: dbContextType,
-            //    lifetime: ServiceLifetime.Scoped
+            // Injecting dbContext
+            _services.Add(new ServiceDescriptor(
+                serviceType: typeof(DbContext),
+                implementationType: _dbContextType,
+                lifetime: ServiceLifetime.Scoped
                 
-            //    ));
+                ));
 
             _services.AddSingleton<IMemorizeService,MemorizeService>();
         }
