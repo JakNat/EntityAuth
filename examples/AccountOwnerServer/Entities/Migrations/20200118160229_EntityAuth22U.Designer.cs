@@ -4,14 +4,16 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entities.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20200118160229_EntityAuth22U")]
+    partial class EntityAuth22U
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,9 +140,14 @@ namespace Entities.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("EA_Roles");
                 });
@@ -171,9 +178,13 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("EntityAuth.Shared.Models.Role", b =>
                 {
-                    b.HasOne("EntityAuth.Shared.Models.Role", "Parent")
-                        .WithMany("Children")
+                    b.HasOne("EntityAuth.Shared.Models.Role", null)
+                        .WithMany()
                         .HasForeignKey("ParentId");
+
+                    b.HasOne("EntityAuth.Shared.Models.Role", null)
+                        .WithMany("Children")
+                        .HasForeignKey("RoleId");
                 });
 #pragma warning restore 612, 618
         }

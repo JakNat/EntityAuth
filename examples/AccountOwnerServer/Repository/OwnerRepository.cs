@@ -1,6 +1,8 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using EntityAuth.Core.Uttils;
+using EntityAuth.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,14 +12,14 @@ namespace Repository
 {
     public class OwnerRepository : RepositoryBase<Owner>, IOwnerRepository 
     { 
-        public OwnerRepository(RepositoryContext repositoryContext) 
-            : base(repositoryContext) 
+        public OwnerRepository(RepositoryContext repositoryContext, IEntityFilter entityFilter) 
+            : base(repositoryContext, entityFilter) 
         { 
         }
 
-        public IEnumerable<Owner> GetAllOwners() 
+        public IEnumerable<Owner> GetAllOwners(bool aclSecured = false) 
         { 
-            return FindAll()
+            return FindAll(aclSecured)
                 .OrderBy(ow => ow.Name)
                 .ToList(); 
         }

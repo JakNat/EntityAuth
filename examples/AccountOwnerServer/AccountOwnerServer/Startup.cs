@@ -1,5 +1,7 @@
 using AccountOwnerServer.Extensions;
 using AutoMapper;
+using Entities;
+using EntityAuth.Core.Uttils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -8,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog;
+using Repository;
+using System;
 using System.IO;
 
 namespace AccountOwnerServer
@@ -43,6 +47,14 @@ namespace AccountOwnerServer
             });
 
             services.AddControllers();
+
+            services.AddEntityFilter()
+                .SetIdentifierType<Guid>()
+                .SetAuthFilterScope(ServiceLifetime.Scoped)
+                .SetAuthorizationScope(ServiceLifetime.Scoped)
+                .SetDbContextImplementation(typeof(RepositoryContext))
+                .SetAuthorizationImplementationType<ServerAuthorizationService>()
+                .Add();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

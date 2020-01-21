@@ -29,7 +29,7 @@ namespace AccountOwnerServer.Controllers
         { 
             try 
             { 
-                var owners = _repository.Owner.GetAllOwners(); 
+                var owners = _repository.Owner.GetAllOwners(aclSecured:true); 
                 _logger.LogInfo($"Returned all owners from database.");
 
                 var ownersResult = _mapper.Map<IEnumerable<OwnerDto>>(owners);

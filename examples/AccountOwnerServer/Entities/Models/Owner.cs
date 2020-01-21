@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityAuth.Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Entities.Models
 {
     [Table("owner")] 
-    public class Owner 
+    public class Owner : IResourceId<Guid>
     { 
         [Column("OwnerId")]
         public Guid Id { get; set; }

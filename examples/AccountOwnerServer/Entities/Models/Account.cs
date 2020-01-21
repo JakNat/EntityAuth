@@ -1,11 +1,12 @@
-﻿using System;
+﻿using EntityAuth.Shared.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
     [Table("account")] 
-    public class Account 
+    public class Account : IResourceId<Guid>
     {
         [Column("AccountId")]
         public Guid Id { get; set; }
