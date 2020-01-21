@@ -1,4 +1,6 @@
-﻿namespace EntityAuth.Core.Uttils
+﻿using System;
+
+namespace EntityAuth.Core.Uttils
 {
     public interface IInject
     {

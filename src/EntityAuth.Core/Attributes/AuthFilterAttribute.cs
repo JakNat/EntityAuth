@@ -9,6 +9,5 @@ namespace EntityAuth.Core
     [AttributeUsage(AttributeTargets.Property)]
     public class AuthFilterAttribute : Attribute
     {
-
     }
 }

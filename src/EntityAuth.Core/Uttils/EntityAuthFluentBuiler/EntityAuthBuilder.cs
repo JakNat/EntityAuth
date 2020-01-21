@@ -1,4 +1,5 @@
 ﻿using EntityAuth.Core.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -7,18 +8,20 @@ namespace EntityAuth.Core.Uttils
     /// <summary>
     /// Fluent interface builder for injecting entiyAuth
     /// </summary>
-    public class EntityAuthBuilder : IIdentifierSetter, 
+    public class EntityAuthBuilder : IIdentifierSetter,
         IFilterImplementation, IAuthorizationImplementation,
         IAuthorizationScope, IAuthFilterScope, IInject
     {
         private IServiceCollection _services;
         private ServiceLifetime _authFilterTypeScope;
 
+        private Type _identifierType;
         private Type _authFilterType;
         private Type _authorizationType;
         private Type _authFilterImplementation;
         private Type _authorizationImplementation;
         private ServiceLifetime _authorizationScope;
+        private Type _dbContextType;
 
         public EntityAuthBuilder(IServiceCollection services)
         {
@@ -26,22 +29,12 @@ namespace EntityAuth.Core.Uttils
         }
         public IAuthFilterScope SetIdentifierType<TIdentifier>()
         {
-            _authFilterType = typeof(IAuthFilterService<TIdentifier>);
-            _authorizationType = typeof(IAuthorizationService<TIdentifier>);
+            _identifierType = typeof(TIdentifier);
 
-            if (typeof(TIdentifier).Equals(typeof(int)))
-            {
-                _authFilterImplementation = typeof(AuthIntFilterService);
-            }
-            else if (typeof(TIdentifier).Equals(typeof(long)))
-            {
-                _authFilterImplementation = typeof(AuthLongFilterService);
-            }
-            else
-            if (typeof(TIdentifier).Equals(typeof(Guid)))
-            {
-                _authFilterImplementation = typeof(AuthGuidFilterService);
-            }
+            _authFilterType = typeof(IAuthFilterService<TIdentifier>);
+            _authorizationType = typeof(IAuthorizationService);
+
+            _authFilterImplementation = typeof(AuthFilterService<TIdentifier>);
 
             return this;
         }
@@ -66,7 +59,7 @@ namespace EntityAuth.Core.Uttils
         public IAuthorizationScope SetAuthFilterImplementationType(Type implementationType)
         {
             if (!_authFilterType.IsAssignableFrom(implementationType))
-                throw new Exception($"AuthFilter implementation must implements {_authFilterType}");
+                throw new EntityAuthBuilderWrongIdentifierException($"AuthFilter implementation must implements {_authFilterType}");
 
             _authFilterImplementation = implementationType;
             return this;
@@ -80,16 +73,22 @@ namespace EntityAuth.Core.Uttils
         public IInject SetAuthorizationImplementationType(Type implementationType)
         {
             if (!_authorizationType.IsAssignableFrom(implementationType))
-                throw new Exception($"Authorization implementation must implements {_authorizationType}");
+                throw new EntityAuthBuilderWrongIdentifierException($"Authorization implementation must implements {_authorizationType}");
 
 
             _authorizationImplementation = implementationType;
             return this;
         }
 
+        public IAuthorizationImplementation SetDbContextImplementation(Type dbContextImp)
+        {
+            _dbContextType = dbContextImp;
+            return this;
+        }
+
         public void Add()
         {
-            // Inejcting AuthFiler Service
+            // Injecting AuthFiler Service
             _services.Add(new ServiceDescriptor(
                 serviceType: _authFilterType,
                 implementationType: _authFilterImplementation,
@@ -102,6 +101,23 @@ namespace EntityAuth.Core.Uttils
                 implementationType: _authorizationImplementation,
                 lifetime: _authorizationScope
                 ));
+
+            // Injecting EntityAuthConfiguration 
+            _services.AddSingleton<IEntityAuthConfiguration>(
+                new EntityAuthConfiguration() { IdentifierType = _identifierType });
+
+            _services.AddTransient<IRoleRepository, RoleRepository>();
+            _services.AddTransient<IEntityFilter, EntityFilter>();
+
+            // Injecting dbContext
+            _services.Add(new ServiceDescriptor(
+                serviceType: typeof(DbContext),
+                implementationType: _dbContextType,
+                lifetime: ServiceLifetime.Scoped
+                
+                ));
+
+            _services.AddSingleton<IMemorizeService,MemorizeService>();
         }
     }
 }

@@ -22,5 +22,7 @@ namespace EntityAuth.Core.Uttils
         /// <typeparam name="TImplementation"></typeparam>
         /// <returns></returns>
         public IInject SetAuthorizationImplementationType(Type ImplementationType);
+
+        public IAuthorizationImplementation SetDbContextImplementation(Type dbContextImp);
     }
 }
