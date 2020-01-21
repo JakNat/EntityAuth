@@ -17,7 +17,7 @@ namespace EntityAuth.Core.Services
         /// <summary>
         /// Get roles with their offspring
         /// </summary>
-        IEnumerable<Role> GetOffspring(Expression<Func<Role, bool>> filter);
+        IEnumerable<Role> GetWithOffspring(Expression<Func<Role, bool>> filter);
 
         IEnumerable<Role> Get(Expression<Func<Role, bool>> filter);
     }

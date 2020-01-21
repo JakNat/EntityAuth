@@ -80,7 +80,7 @@ namespace EntityAuth.Core.Uttils
             return this;
         }
 
-        public IInject SetDbContextImplementation(Type dbContextImp)
+        public IAuthorizationImplementation SetDbContextImplementation(Type dbContextImp)
         {
             _dbContextType = dbContextImp;
             return this;

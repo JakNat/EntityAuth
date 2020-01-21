@@ -42,29 +42,29 @@ namespace EntityAuth.Core.Services
             else
             {
                 db.Entry(parent).Collection(e => e.Children).Query().Load();
-                var children = new List<Role>();
+
                 if (parent.Children != null)
                 {
                     foreach (Role child in parent.Children)
                     {
                         LoadChildren(child);
-
                     }
                 }
+
                 memorizeService.Add(parent);
             }
         }
 
-        public IEnumerable<Role> GetOffspring(Expression<Func<Role, bool>> filter)
+        public IEnumerable<Role> GetWithOffspring(Expression<Func<Role, bool>> filter)
         {
 
             var role = db.Set<Role>().Include(x => x.Children).FirstOrDefault(filter);
-            var gg = role.GetOffsprings();
+            
             if (role == null)
                 return null;
 
             var results = GetOffspring(role);
-            return results;
+            return results.Append(role);
         }
 
         private IEnumerable<Role> GetOffspring(Role parent)

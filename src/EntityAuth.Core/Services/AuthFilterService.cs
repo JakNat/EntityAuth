@@ -26,7 +26,7 @@ namespace EntityAuth.Core.Services
             var roleName = authorizationService.GetCurrentRole();
 
             var roleIds = recursiveRepository
-                .GetOffspring(x => x.Name == roleName)
+                .GetWithOffspring(x => x.Name == roleName)
                 .Select(x => x.Id);
 
             var permissions = db.Set<Permission<T>>();

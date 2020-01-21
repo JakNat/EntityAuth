@@ -29,7 +29,7 @@ namespace EntityAuth.Core.Test.Services
             // mocking RecursiveRepository
             // recursiveRepo.Get(...) returns 5 roles
             var recursiveRepo = A.Fake<IRoleRepository>();
-            A.CallTo(() => recursiveRepo.GetOffspring(A<Expression<Func<Role, bool>>>.Ignored))
+            A.CallTo(() => recursiveRepo.GetWithOffspring(A<Expression<Func<Role, bool>>>.Ignored))
                 .Returns(new List<Role>() 
                 { MakeRole(1), MakeRole(2), MakeRole(3), MakeRole(4), MakeRole(5)});
 
@@ -56,7 +56,7 @@ namespace EntityAuth.Core.Test.Services
             // mocking RecursiveRepository
             // recursiveRepo.Get(...) returns 5 roles
             var recursiveRepo = A.Fake<IRoleRepository>();
-            A.CallTo(() => recursiveRepo.GetOffspring(A<Expression<Func<Role, bool>>>.Ignored))
+            A.CallTo(() => recursiveRepo.GetWithOffspring(A<Expression<Func<Role, bool>>>.Ignored))
                 .Returns(new List<Role>()
                 { MakeRole(11), MakeRole(2), MakeRole(3), MakeRole(4), MakeRole(5)});
 

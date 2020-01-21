@@ -38,7 +38,7 @@ namespace EntityAuth.Core.Test.Services
         [InlineData("Role223", 2)]
         public void Memorization_GetRoleByName_Should_ReturnRoleAndItsOffspring(string roleName, int resultCount)
         {
-            var result = _recursiveRepo.GetOffspring(x => x.Name == roleName);
+            var result = _recursiveRepo.GetWithOffspring(x => x.Name == roleName);
 
             Assert.Equal(resultCount, result.Count());
         }
@@ -49,7 +49,7 @@ namespace EntityAuth.Core.Test.Services
             var newRole = new Role() { Name = "NewRole" };
 
             _recursiveRepo.Add("Role1", newRole);
-            var result = _recursiveRepo.GetOffspring(x => x.Name == "Role1");
+            var result = _recursiveRepo.GetWithOffspring(x => x.Name == "Role1");
 
             Assert.Equal(8, result.Count());
         }
@@ -65,11 +65,11 @@ namespace EntityAuth.Core.Test.Services
             };
 
             _recursiveRepo.Add("Role1", newRole);
-            var result = _recursiveRepo.GetOffspring(x => x.Name == "Role1");
+            var result = _recursiveRepo.GetWithOffspring(x => x.Name == "Role1");
 
             Assert.Equal(10, result.Count());
 
-            var result2 = _recursiveRepo.GetOffspring(x => x.Name == "NewRole1");
+            var result2 = _recursiveRepo.GetWithOffspring(x => x.Name == "NewRole1");
 
             Assert.Equal(2, result2.Count());
         }
@@ -83,7 +83,7 @@ namespace EntityAuth.Core.Test.Services
         {
             _recursiveRepo.Delete(roleNameToDelete);
 
-            var result = _recursiveRepo.GetOffspring(x => x.Name == roleName);
+            var result = _recursiveRepo.GetWithOffspring(x => x.Name == roleName);
             var allRoles = _db.Set<Role>().ToList();
 
             Assert.Equal(potomsNumber, result.Count());
