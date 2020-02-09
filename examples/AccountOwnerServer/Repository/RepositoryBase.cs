@@ -25,7 +25,7 @@ namespace Repository
 
         public IQueryable<T> FindAll(bool AclSecured = false)
         {
-            var owners = FindAll();
+            var owners = RepositoryContext.Set<T>().AsNoTracking();
 
             if (AclSecured)
                 owners = SetAclFilter(owners, AccessType.GET);
@@ -36,7 +36,7 @@ namespace Repository
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool aclSecured = false)
         {
-            var owners = FindByCondition(expression);
+            var owners = RepositoryContext.Set<T>().Where(expression).AsNoTracking();
 
             if (aclSecured)
                 owners = entityFilter.SetAclFilter(owners, AccessType.GET);

@@ -18,10 +18,60 @@ namespace Repository
         }
 
         public IEnumerable<Owner> GetAllOwners(bool aclSecured = false) 
-        { 
+        {
+            if (true)
+            {
+                var query = FindAll(true)
+                .OrderBy(ow => ow.Name)
+                .Include(ac => ac.Accounts)
+                .Where(x => x.Accounts.Count > 10);
+
+                return query.Include(x => x.Accounts).ToList();
+            }
+            else if (true)
+            {
+                return FindByCondition(owner => owner.DateOfBirth > DateTime.Now.AddYears(-10))
+               .OrderByDescending(ow => ow.Name)
+               .Include(ac => ac.Accounts)
+               .Where(x => x.Accounts.Count < 10)
+               .ToList();
+            }
+            else if (true)
+            {
+                return FindByCondition(owner => owner.DateOfBirth > DateTime.Now.AddYears(-20))
+              .OrderByDescending(ow => ow.Name)
+              .Include(ac => ac.Accounts)
+              .Where(x => x.Accounts.Count < 4)
+              .ToList();
+            }
+            else if (true)
+            {
+                return FindByCondition(owner => owner.DateOfBirth > DateTime.Now.AddYears(-10))
+              .OrderByDescending(ow => ow.Name)
+              .Include(ac => ac.Accounts)
+              .Where(x => x.Accounts.Count < 10)
+              .ToList();
+            }
+            else if (true)
+            {
+                return FindByCondition(owner => owner.DateOfBirth > DateTime.Now.AddYears(-10))
+             .OrderByDescending(ow => ow.Name)
+             .Include(ac => ac.Accounts)
+             .Where(x => x.Accounts.Count < 10)
+             .ToList();
+            }
+
             return FindAll(aclSecured)
                 .OrderBy(ow => ow.Name)
-                .ToList(); 
+                .Include(ac => ac.Accounts)
+                .ToList();
+        }
+
+        public Owner GetOwnerByName(string name, bool aclSecured)
+        {
+            return FindByCondition(owner => owner.Name == name, aclSecured)
+                .Include(ac => ac.Accounts)
+                .FirstOrDefault();
         }
 
         public Owner GetOwnerById(Guid ownerId)

@@ -30,6 +30,8 @@ namespace EntityAuth.Core.Services
 
             foreach (Role entity in parents)
             {
+                if (memorizeService.Contains(entity))
+                    yield return memorizeService.Get(entity);
                 LoadChildren(entity);
 
                 yield return entity;
